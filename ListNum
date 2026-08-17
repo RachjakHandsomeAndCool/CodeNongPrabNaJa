@@ -1,0 +1,193 @@
+class Node {
+    private int info;
+    private Node link;
+    public Node(int info,Node link)
+   {
+       this.info=info;
+       this.link=link;
+    }
+    public Node(int info)
+    {
+        this(info,null);
+    }
+    public Node()
+    {
+        this(0,null);
+    }
+    public int getInfo() {
+	return this.info;
+    }
+    public Node getLink() {
+        return this.link;
+    }
+    public void setInfo(int info) 
+    {
+	this.info=info;
+    }
+    public void setLink(Node link) {
+        this.link = link;
+    }
+    public String toString() {
+	return ""+this.info;
+    }
+}
+
+public class ListNum {
+
+    /**
+     * @param args the command line arguments
+     */
+    private Node head=null;
+    public ListNum(){
+
+    } 
+    public void addNode(int newInfo) {
+    	Node newNode = new Node(newInfo);
+		newNode.setLink(head);	
+		head = newNode;
+    }
+
+    public void CountNode(){
+        Node trav = head;
+        int C=0;
+
+        while(trav!=null){
+            C++;
+            trav = trav.getLink();
+        }
+        System.out.println(C);
+    }
+
+    public void TailInsert(int newInfo){
+        Node newNode = new Node(newInfo);
+        Node trav1 = head;
+        Node trav2 = head;
+
+        while(trav1!=null){
+            trav2=trav1;
+            trav1=trav1.getLink();
+        }
+
+        if(trav1!=trav2){
+            trav2.setLink(newNode);
+        }
+        else{
+            head = newNode;
+        }
+    }
+
+    public void LowToHigh(int newInfo){
+        Node newNode = new Node(newInfo);
+        Node trav1 = head;
+        Node trav2 = head;
+
+        while (trav1!=null && trav1.getInfo() < newNode.getInfo()) {
+            trav2 = trav1;
+            trav1 = trav1.getLink();
+        }
+        newNode.setLink(trav1);
+
+        if(trav1!=trav2){
+            trav2.setLink(newNode);
+        }
+        else{
+            head = newNode;
+        }
+    }
+
+    public void DelHead(){
+        Node delNode = head;
+        if(head!=null){
+            head = head.getLink();
+        }
+    }
+
+    public void DelTail(){
+        Node delNode;
+        Node trav1 = head;
+        Node trav2 = head;
+
+        while (trav1!=null && trav1.getLink()!=null) {
+            trav2 = trav1;
+            trav1 = trav1.getLink();
+        }
+        delNode = trav1;
+
+        if(trav2!=null){
+            trav2.setLink(null);
+
+            if( delNode == head ){
+                head = null;
+            }
+        }
+    }
+
+    public void SearchLink(int target){
+        int  tarposi = 1;
+        Node trav1 = head;
+
+        while(trav1!=null){
+            if(trav1.getInfo()==target){
+                System.out.println(target + " in position ---> " + tarposi);
+                return;
+            }
+            trav1 = trav1.getLink();
+            tarposi++;
+        }
+
+        System.out.println("Not found");
+    }
+
+    public void DelInfo(int info){
+        Node delNode;
+        Node trav1 = head;
+        Node trav2 = head;
+
+        while (trav1 != null) {
+            if(trav1.getInfo() == info){
+                delNode = trav1;
+                if(trav1!=head){
+                    trav2.setLink(trav1.getLink());
+                }
+                else{
+                    head = trav1.getLink();
+                }
+            }
+            else{
+                trav2 = trav1;
+            }
+            trav1 = trav1.getLink();
+        }
+    }
+
+    public String toString() {
+        Node trav=head;
+        String str="";
+        while (trav!=null) {			
+            str=str.concat(trav.toString());
+            //str=str.concat(""+trav.getInfo());
+                    trav=trav.getLink();
+            if(trav!=null)
+                        str=str.concat(" | ");		
+        }
+        return str;
+    }
+    public static void main(String[] args) {
+        ListNum listNum1=new ListNum();
+        listNum1.addNode(10);
+        listNum1.addNode(20);
+        listNum1.addNode(30);       
+        listNum1.CountNode();
+        listNum1.TailInsert(67);
+        System.out.println(listNum1);
+        listNum1.LowToHigh(66);
+        System.out.println(listNum1);
+        listNum1.DelHead();
+        System.out.println(listNum1);
+        listNum1.DelTail();
+        System.out.println(listNum1);
+        listNum1.SearchLink(10);
+        listNum1.DelInfo(66);
+        System.out.println(listNum1);
+    }    
+}
